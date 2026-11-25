@@ -3,7 +3,8 @@
 
 The program is deterministic: it always writes the same line, a joke that
 turns on a real office detail (the printer) and lands its laugh in the
-last few words. Pure standard library, no network, no input.
+last few words. Pure standard library, no network, no input. A module-level
+gate asserts the entry stays one line of 1-199 characters before it is used.
 """
 
 import os
@@ -13,6 +14,10 @@ JOKE = (
     "confidential, and due in five minutes \u2014 it\u2019s the most "
     "reliable employee we have."
 )
+
+# Gate: the judged entry must stay a single line of 1-199 characters,
+# so any accidental edit that grows or breaks it fails loudly here.
+assert 1 <= len(JOKE) <= 199, f"entry length {len(JOKE)} out of gate range"
 
 
 def main() -> None:
